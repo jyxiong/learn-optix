@@ -1,0 +1,10 @@
+.vs
+.idea
+
+build
+out
+
+CMakeSettings.json
+
+cmake
+notes
