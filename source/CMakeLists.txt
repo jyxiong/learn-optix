@@ -1,9 +1,15 @@
-include_directories(${OptiX_INCLUDE})
-
-cuda_compile_and_embed(embedded_ptx_code devicePrograms.cu)
+embed_ptx(
+    SOURCES
+        devicePrograms.cu
+    EMBEDDED_SYMBOL_NAMES
+        embedded_ptx_code
+    PTX_TARGET
+        devicePrograms_ptx
+    OUTPUT_TARGET
+        devicePrograms_obj
+)
 
 add_executable(learn-optix
-    ${embedded_ptx_code}
     optix7.h
     CUDABuffer.h
     LaunchParams.h
@@ -13,6 +19,8 @@ add_executable(learn-optix
     )
 target_link_libraries(learn-optix
     gdt
-    ${CUDA_LIBRARIES}
-    ${CUDA_CUDA_LIBRARY}
+    devicePrograms_obj
+    CUDA::cudart_static
+    CUDA::cuda_driver
     )
+

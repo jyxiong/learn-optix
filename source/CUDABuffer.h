@@ -19,7 +19,7 @@
 #include "optix7.h"
 // common std stuff
 #include <vector>
-#include <assert.h>
+#include <cassert>
 
 /*! \namespace osc - Optix Siggraph Course */
 namespace osc {
