@@ -1,11 +1,12 @@
 #pragma once
 
 // optix 7
+#include <sstream>
+#include <stdexcept>
 #include <cuda_runtime.h>
 #include <optix.h>
 #include <optix_stubs.h>
-#include <sstream>
-#include <stdexcept>
+
 
 #define CUDA_CHECK(call)							\
     {									\

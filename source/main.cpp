@@ -1,47 +1,33 @@
-// common gdt helper tools
-#include "gdt.h"
-#include "optix7.h"
+#include "SampleRenderer.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb/stb_image_write.h"
 
 /*! \namespace osc - Optix Siggraph Course */
 namespace osc {
-
-/*! helper function that initializes optix and checks for errors */
-void initOptix()
-{
-    // -------------------------------------------------------
-    // check for available optix7 capable devices
-    // -------------------------------------------------------
-    cudaFree(nullptr);
-    int numDevices;
-    cudaGetDeviceCount(&numDevices);
-    if (numDevices == 0)
-        throw std::runtime_error("#osc: no CUDA capable devices found!");
-    std::cout << "#osc: found " << numDevices << " CUDA devices" << std::endl;
-
-    // -------------------------------------------------------
-    // initialize optix
-    // -------------------------------------------------------
-    OPTIX_CHECK( optixInit() );
-}
-
 
 /*! main entry point to this example - initially optix, print hello
   world, then exit */
 extern "C" int main(int ac, char **av)
 {
     try {
-        std::cout << "#osc: initializing optix..." << std::endl;
+        SampleRenderer sample;
 
-        initOptix();
+        const vec2i fbSize(vec2i(1200,1024));
+        sample.resize(fbSize);
+        sample.render();
 
+        std::vector<uint32_t> pixels(fbSize.x*fbSize.y);
+        sample.downloadPixels(pixels.data());
+
+        const std::string fileName = "osc_example2.png";
+        stbi_write_png(fileName.c_str(),fbSize.x,fbSize.y,4,
+                       pixels.data(),fbSize.x*sizeof(uint32_t));
         std::cout << GDT_TERMINAL_GREEN
-                  << "#osc: successfully initialized optix... yay!"
-                  << GDT_TERMINAL_DEFAULT << std::endl;
-
-        // for this simple hello-world example, don't do anything else
-        // ...
-        std::cout << "#osc: done. clean exit." << std::endl;
-
+                  << std::endl
+                  << "Image rendered, and saved to " << fileName << " ... done." << std::endl
+                  << GDT_TERMINAL_DEFAULT
+                  << std::endl;
     } catch (std::runtime_error& e) {
         std::cout << GDT_TERMINAL_RED << "FATAL ERROR: " << e.what()
                   << GDT_TERMINAL_DEFAULT << std::endl;
@@ -50,4 +36,4 @@ extern "C" int main(int ac, char **av)
     return 0;
 }
 
-}
+} // ::osc
