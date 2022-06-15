@@ -51,8 +51,7 @@ function(cuda_compile_and_embed)
         CUDA_ARCHITECTURES OFF
         FOLDER Intermediary
         )
-    target_compile_options(${PREFIX_PTX_TARGET} PRIVATE "-lineinfo")
-    target_link_libraries(${PREFIX_PTX_TARGET} PUBLIC ${PREFIX_LINK_LIBRARIES})
+    target_link_libraries(${PREFIX_PTX_TARGET} PUBLIC ${PREFIX_LINK_LIBRARIES} cuda_build_configuration)
 
     # Step 2. use the 'bin2c' tool to create a .c file ${PREFIX_OUTPUT_TARGET} which defines
     # a const string variable ${PREFIX_EMBEDDED_SYMBOL_NAMES} whose value is the PTX output from the previous step.

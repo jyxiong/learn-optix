@@ -5,7 +5,15 @@ project(learn_optix LANGUAGES CXX C CUDA)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_SOURCE_DIR}/cmake/modules")
+# Update module path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+# solve Linker Warning LNK4098 default lib LIBCMT conflict with use of other libs
+# https://discourse.cmake.org/t/cmake-or-vs-issue-in-debug-mode-libcmt-is-linked-together-with-libcmtd/1911
+# disable LIBCMT except STATIC and DEBUG
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMT")
+
 include(${CMAKE_SOURCE_DIR}/cmake/configure_cuda.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/configure_optix.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/cuda_compile_and_embed.cmake)

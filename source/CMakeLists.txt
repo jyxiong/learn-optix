@@ -1,4 +1,3 @@
-
 set(OUTPUT_TARGET_NAME "embed_ptx_to_lib")
 
 cuda_compile_and_embed(
@@ -10,7 +9,7 @@ cuda_compile_and_embed(
         ${OUTPUT_TARGET_NAME}
 )
 
-add_executable(learn-optix
+add_executable(learn_optix
     optix7.h
     CUDABuffer.h
     LaunchParams.h
@@ -19,7 +18,7 @@ add_executable(learn-optix
     main.cpp
     )
 
-target_link_libraries(learn-optix
+target_link_libraries(learn_optix
     gdt
     ${OUTPUT_TARGET_NAME}
     CUDA::cudart_static
