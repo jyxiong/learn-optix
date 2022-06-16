@@ -8,11 +8,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Update module path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 # solve Linker Warning LNK4098 default lib LIBCMT conflict with use of other libs
 # https://discourse.cmake.org/t/cmake-or-vs-issue-in-debug-mode-libcmt-is-linked-together-with-libcmtd/1911
-# disable LIBCMT except STATIC and DEBUG
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMT")
+# In this project, we compile with dynamical runtime library by default,
+# and the LIBCMT should be disabled because it is a static runtime library
+if (MSVC)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMT")
+endif()
 
 include(${CMAKE_SOURCE_DIR}/cmake/configure_cuda.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/configure_optix.cmake)

@@ -19,7 +19,7 @@
 #include "gdt.h"
 #include "math/constants.h"
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 namespace gdt {

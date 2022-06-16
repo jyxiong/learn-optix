@@ -16,8 +16,8 @@
     }                                                           \
 }
 
-#define CUDA_CHECK(call)							            \
-{									                            \
+#define CUDA_CHECK(call)                                        \
+{                                                               \
     cudaError_t rc = call;                                      \
     if (rc != cudaSuccess) {                                    \
         std::stringstream txt;                                  \
@@ -25,5 +25,16 @@
         txt << "CUDA Error " << cudaGetErrorName(err)           \
             << " (" << cudaGetErrorString(err) << ")";          \
         throw std::runtime_error(txt.str());                    \
+    }                                                           \
+}
+
+#define CUDA_SYNC_CHECK()                                       \
+{                                                               \
+    cudaDeviceSynchronize();                                    \
+    cudaError_t error = cudaGetLastError();                     \
+    if( error != cudaSuccess )                                  \
+    {                                                           \
+        fprintf( stderr, "error (%s: line %d): %s\n", __FILE__, __LINE__, cudaGetErrorString( error ) ); \
+        exit( 2 );                                              \
     }                                                           \
 }
