@@ -18,6 +18,7 @@ endif()
 
 include(${CMAKE_SOURCE_DIR}/cmake/configure_cuda.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/configure_optix.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/configure_opengl.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/cuda_compile_and_embed.cmake)
 
 include_directories(3rdparty)

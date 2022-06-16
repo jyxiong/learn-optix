@@ -18,9 +18,12 @@ add_executable(learn_optix
     main.cpp
     )
 
-target_link_libraries(learn_optix
+target_link_libraries(learn_optix PUBLIC
     gdt
     ${OUTPUT_TARGET_NAME}
+    GLFWindow
+    glfw
+    OpenGL::GL
     CUDA::cudart_static
     CUDA::cuda_driver
     )
